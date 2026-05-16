@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Expense Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body
+	class="bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 text-slate-900">
+	<div class="min-h-screen flex">
+
+		<aside id="sidebar"
+			class="fixed lg:static inset-y-0 left-0 z-40 w-72 bg-white border-r border-slate-200 p-6 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+			<div class="flex items-center justify-between mb-10">
+				<div class="flex items-center gap-3">
+					<div
+						class="h-12 w-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white text-2xl">
+						₹</div>
+					<div>
+						<h1 class="font-bold text-lg">Smart Expense</h1>
+						<p class="text-sm text-slate-500">Tracker</p>
+					</div>
+				</div>
+
+				<button onclick="toggleSidebar()"
+					class="lg:hidden text-slate-500 text-xl">X</button>
+			</div>
+
+			<nav class="space-y-2">
+				<button onclick="showSection('dashboardSection', this)"
+					class="nav-btn w-full text-left bg-blue-600 text-white rounded-xl px-4 py-3 font-medium">
+					Dashboard</button>
+
+				<button onclick="showSection('transactionsSection', this)"
+					class="nav-btn w-full text-left text-slate-600 hover:bg-slate-100 rounded-xl px-4 py-3 font-medium">
+					Transactions</button>
+
+				<button onclick="showSection('categoriesSection', this)"
+					class="nav-btn w-full text-left text-slate-600 hover:bg-slate-100 rounded-xl px-4 py-3 font-medium">
+					Categories</button>
+
+				<button onclick="showSection('reportsSection', this)"
+					class="nav-btn w-full text-left text-slate-600 hover:bg-slate-100 rounded-xl px-4 py-3 font-medium">
+					Reports</button>
+
+				<button onclick="showSection('settingsSection', this)"
+					class="nav-btn w-full text-left text-slate-600 hover:bg-slate-100 rounded-xl px-4 py-3 font-medium">
+					Settings</button>
+			</nav>
+
+			<div class="mt-auto rounded-2xl bg-slate-100 p-4">
+				<div class="flex items-center gap-3">
+					<img
+						src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff"
+						id="profilePhoto" class="h-11 w-11 rounded-full" alt="Profile">
+
+					<div class="flex-1 min-w-0">
+						<p id="profileUsername" class="font-semibold truncate">User</p>
+						<p class="text-sm text-slate-500">Logged in</p>
+					</div>
+				</div>
+
+				<button onclick="logout()"
+					class="mt-4 w-full bg-rose-600 hover:bg-rose-700 text-white rounded-xl py-2 font-medium">
+					Logout</button>
+			</div>
+		</aside>
+
+		<div id="sidebarOverlay" onclick="toggleSidebar()"
+			class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
+
+		<main class="flex-1 w-full p-4 sm:p-5 lg:p-8">
+			<div class="lg:hidden flex items-center justify-between mb-5">
+				<button onclick="toggleSidebar()"
+					class="bg-white border border-slate-200 rounded-xl px-4 py-2 shadow-sm">
+					Menu</button>
+
+				<div class="font-bold">Smart Expense</div>
+
+				<button onclick="logout()" class="text-rose-600 font-medium">
+					Logout</button>
+			</div>
+
+			<div
+				class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+				<div>
+					<h2 class="text-2xl sm:text-3xl font-bold">Dashboard</h2>
+					<p class="text-slate-500 mt-1 text-sm sm:text-base">Track
+						income, expenses, savings and categories.</p>
+				</div>
+
+				<button onclick="openModal()"
+					class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-medium">
+					+ Add Transaction</button>
+			</div>
+
+			<section id="dashboardSection" class="page-section">
+				<section
+					class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5 mb-6">
+					<div
+						class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+						<p class="text-slate-500">Total Balance</p>
+						<h3 id="totalBalance" class="text-2xl font-bold mt-3">₹0</h3>
+					</div>
+
+					<div
+						class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+						<p class="text-slate-500">Total Income</p>
+						<h3 id="totalIncome"
+							class="text-2xl font-bold mt-3 text-emerald-600">₹0</h3>
+					</div>
+
+					<div
+						class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+						<p class="text-slate-500">Total Expense</p>
+						<h3 id="totalExpense"
+							class="text-2xl font-bold mt-3 text-rose-600">₹0</h3>
+					</div>
+
+					<div
+						class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+						<p class="text-slate-500">Total Savings</p>
+						<h3 id="totalSavings"
+							class="text-2xl font-bold mt-3 text-amber-600">₹0</h3>
+					</div>
+				</section>
+
+				<section class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+					<div
+						class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm overflow-hidden">
+						<h3 class="font-bold mb-4">Monthly Overview</h3>
+						<div class="h-72">
+							<canvas id="monthlyChart"></canvas>
+						</div>
+					</div>
+
+					<div
+						class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm overflow-hidden">
+						<h3 class="font-bold mb-4">Expense by Category</h3>
+						<div class="h-72">
+							<canvas id="categoryChart"></canvas>
+						</div>
+					</div>
+				</section>
+
+				<section class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+					<div
+						class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+						<h3 class="font-bold mb-4">Recent Transactions</h3>
+
+						<div class="overflow-x-auto">
+							<table class="w-full min-w-[720px] text-sm">
+								<thead class="bg-slate-100">
+									<tr>
+										<th class="text-left p-3">Date</th>
+										<th class="text-left p-3">Description</th>
+										<th class="text-left p-3">Category</th>
+										<th class="text-left p-3">Type</th>
+										<th class="text-right p-3">Amount</th>
+										<th class="text-right p-3">Action</th>
+									</tr>
+								</thead>
+								<tbody id="transactionsTable"></tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="space-y-6">
+						<div
+							class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+							<h3 class="font-bold mb-4">Top Spending Category</h3>
+							<div class="rounded-2xl bg-emerald-50 p-5">
+								<p id="topCategoryName" class="text-slate-600">No expenses
+									yet</p>
+								<h4 id="topCategoryAmount" class="text-2xl font-bold mt-2">₹0</h4>
+							</div>
+						</div>
+
+						<div
+							class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+							<h3 class="font-bold mb-4">Quick Actions</h3>
+							<button onclick="openModal()"
+								class="w-full bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-medium">
+								Add Transaction</button>
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<section id="transactionsSection" class="page-section hidden">
+				<div
+					class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm">
+					<div
+						class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+						<h3 class="font-bold text-xl">All Transactions</h3>
+
+						<button onclick="openModal()"
+							class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl">
+							Add Transaction</button>
+					</div>
+
+					<div class="w-full overflow-x-auto">
+						<table class="min-w-[760px] w-full text-sm whitespace-nowrap">
+							<thead class="bg-slate-100">
+								<tr>
+									<th class="text-left p-3">Date</th>
+									<th class="text-left p-3">Description</th>
+									<th class="text-left p-3">Category</th>
+									<th class="text-left p-3">Type</th>
+									<th class="text-right p-3">Amount</th>
+									<th class="text-right p-3">Action</th>
+								</tr>
+							</thead>
+
+							<tbody id="allTransactionsTable"></tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+
+
+			<section id="categoriesSection" class="page-section hidden">
+				<div
+					class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+					<h3 class="font-bold text-xl mb-4">Categories</h3>
+					<div id="categoriesList"
+						class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+				</div>
+			</section>
+
+			<section id="reportsSection" class="page-section hidden">
+				<div
+					class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+					<h3 class="font-bold text-xl mb-4">Reports</h3>
+
+					<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+						<div class="bg-emerald-50 rounded-2xl p-5">
+							<p class="text-slate-500">Income</p>
+							<h4 id="reportIncome" class="text-2xl font-bold text-emerald-700">₹0</h4>
+						</div>
+
+						<div class="bg-rose-50 rounded-2xl p-5">
+							<p class="text-slate-500">Expense</p>
+							<h4 id="reportExpense" class="text-2xl font-bold text-rose-700">₹0</h4>
+						</div>
+
+						<div class="bg-blue-50 rounded-2xl p-5">
+							<p class="text-slate-500">Balance</p>
+							<h4 id="reportBalance" class="text-2xl font-bold text-blue-700">₹0</h4>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section id="settingsSection" class="page-section hidden">
+				<div
+					class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm max-w-xl">
+					<h3 class="font-bold text-xl mb-4">Settings</h3>
+
+					<div class="flex items-center gap-4 mb-6">
+						<img id="settingsProfilePhoto"
+							src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff"
+							class="h-16 w-16 rounded-full" alt="Profile">
+
+						<div class="min-w-0">
+							<p id="settingsUsername" class="font-bold text-lg truncate">User</p>
+							<p class="text-slate-500">Smart Expense Tracker account</p>
+						</div>
+					</div>
+
+					<button onclick="logout()"
+						class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white px-5 py-3 rounded-xl font-medium">
+						Logout</button>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<div id="transactionModal"
+		class="fixed inset-0 z-50 bg-black/40 hidden items-center justify-center p-4">
+		<div
+			class="bg-white rounded-2xl p-5 sm:p-6 w-full max-w-lg max-h-[92vh] overflow-y-auto">
+			<div class="flex justify-between items-center mb-5">
+				<h3 class="text-xl font-bold">Add Transaction</h3>
+				<button onclick="closeModal()" class="text-slate-500">X</button>
+			</div>
+
+			<form id="transactionForm" class="space-y-4">
+				<input id="description" class="w-full border rounded-xl px-4 py-3"
+					placeholder="Description" required> <select id="category"
+					onchange="toggleCustomCategory()"
+					class="w-full border rounded-xl px-4 py-3" required>
+					<option value="">Select Category</option>
+					<option value="Food">Food</option>
+					<option value="Grocery">Grocery</option>
+					<option value="Transport">Transport</option>
+					<option value="Rent">Rent</option>
+					<option value="Bills">Bills</option>
+					<option value="Shopping">Shopping</option>
+					<option value="Entertainment">Entertainment</option>
+					<option value="Health">Health</option>
+					<option value="Income">Income</option>
+					<option value="Other">Other</option>
+				</select> <input id="customCategory"
+					class="w-full border rounded-xl px-4 py-3 hidden"
+					placeholder="Type category name"> <select id="type"
+					class="w-full border rounded-xl px-4 py-3" required>
+					<option value="EXPENSE">Expense</option>
+					<option value="INCOME">Income</option>
+				</select> <input id="amount" type="number" step="0.01"
+					class="w-full border rounded-xl px-4 py-3" placeholder="Amount"
+					required> <input id="transactionDate" type="date"
+					class="w-full border rounded-xl px-4 py-3" required>
+
+				<button
+					class="w-full bg-blue-600 text-white rounded-xl py-3 font-medium">
+					Save Transaction</button>
+			</form>
+		</div>
+	</div>
+
+	<script src="/dashboard.js"></script>
+</body>
+</html>

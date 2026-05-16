@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Expense Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-[#F8F9FA] text-slate-950">
+<div class="min-h-screen flex flex-col">
+
+    <header class="border-b border-slate-200 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-xl bg-[#844FC1] text-white flex items-center justify-center text-xl font-bold">
+                    ₹
+                </div>
+                <div>
+                    <p class="font-bold leading-tight">Smart Expense Tracker</p>
+                    <p class="text-xs text-[#6C7293] leading-tight">Personal finance dashboard</p>
+                </div>
+            </a>
+
+            <div class="hidden sm:flex items-center gap-2">
+                <a href="/login"
+                   class="px-4 py-2 rounded-xl text-[#6C7293] hover:text-[#844FC1] font-medium">
+                    Login
+                </a>
+
+                <a href="/register"
+                   class="px-4 py-2 rounded-xl bg-[#844FC1] text-white font-semibold hover:bg-[#7442ad]">
+                    Register
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1">
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+            <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 lg:gap-12 items-center">
+
+                <div class="space-y-6">
+                    <div class="inline-flex rounded-full bg-[#844FC1]/10 px-4 py-2 text-sm font-semibold text-[#844FC1]">
+                        Built with Spring Boot + JWT
+                    </div>
+
+                    <div>
+                        <h1 class="text-4xl sm:text-5xl font-black leading-tight">
+                            Your money, organized in one secure dashboard.
+                        </h1>
+
+                        <p class="mt-5 text-lg leading-8 text-[#6C7293]">
+                            Track income, expenses, categories and reports with separate data for every registered user.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="/register"
+                           class="text-center rounded-xl bg-[#844FC1] px-6 py-3 font-semibold text-white hover:bg-[#7442ad]">
+                            Create free account
+                        </a>
+
+                        <a href="/login"
+                           class="text-center rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-900 hover:bg-slate-50">
+                            Login
+                        </a>
+                    </div>
+                </div>
+
+                <div class="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div>
+                            <p class="text-sm text-[#6C7293]">Dashboard preview</p>
+                            <h2 class="text-xl font-bold">May Overview</h2>
+                        </div>
+
+                        <div class="rounded-xl bg-[#844FC1]/10 px-3 py-2 text-sm font-bold text-[#844FC1]">
+                            Live UI
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 mt-5">
+                        <div class="rounded-2xl border border-slate-200 p-4">
+                            <p class="text-sm text-[#6C7293]">Balance</p>
+                            <p class="mt-2 text-2xl font-black">₹24,750</p>
+                        </div>
+
+                        <div class="rounded-2xl border border-slate-200 p-4">
+                            <p class="text-sm text-[#6C7293]">Savings</p>
+                            <p class="mt-2 text-2xl font-black text-[#3B86D1]">₹24,750</p>
+                        </div>
+
+                        <div class="rounded-2xl border border-slate-200 p-4">
+                            <p class="text-sm text-[#6C7293]">Income</p>
+                            <p class="mt-2 text-2xl font-black text-[#21BF06]">₹45,000</p>
+                        </div>
+
+                        <div class="rounded-2xl border border-slate-200 p-4">
+                            <p class="text-sm text-[#6C7293]">Expense</p>
+                            <p class="mt-2 text-2xl font-black text-rose-600">₹20,250</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 rounded-2xl bg-[#F8F9FA] border border-slate-200 p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="font-bold">Recent activity</p>
+                            <p class="text-sm text-[#6C7293]">3 items</p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between rounded-xl bg-white p-3 border border-slate-100">
+                                <div>
+                                    <p class="font-semibold">Grocery</p>
+                                    <p class="text-sm text-[#6C7293]">Food</p>
+                                </div>
+                                <p class="font-bold text-rose-600">-₹1,830</p>
+                            </div>
+
+                            <div class="flex items-center justify-between rounded-xl bg-white p-3 border border-slate-100">
+                                <div>
+                                    <p class="font-semibold">Salary</p>
+                                    <p class="text-sm text-[#6C7293]">Income</p>
+                                </div>
+                                <p class="font-bold text-[#21BF06]">+₹45,000</p>
+                            </div>
+
+                            <div class="flex items-center justify-between rounded-xl bg-white p-3 border border-slate-100">
+                                <div>
+                                    <p class="font-semibold">Transport</p>
+                                    <p class="text-sm text-[#6C7293]">Travel</p>
+                                </div>
+                                <p class="font-bold text-rose-600">-₹350</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <div class="sm:hidden sticky bottom-0 bg-white border-t border-slate-200 p-4 grid grid-cols-2 gap-3">
+        <a href="/login"
+           class="text-center rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-900">
+            Login
+        </a>
+
+        <a href="/register"
+           class="text-center rounded-xl bg-[#844FC1] px-5 py-3 font-semibold text-white">
+            Register
+        </a>
+    </div>
+</div>
+</body>
+</html>
